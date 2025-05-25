@@ -15,7 +15,9 @@
     const params = new URLSearchParams(location.search);
     const sid = params.get('sid') || 'start';
     const token = params.get('p') || '';
-    const history = token ? JSON.parse(atob(token)) : [];
+    const storedProgress = localStorage.getItem('huntProgress');
+    let history = token ? JSON.parse(atob(token)) :
+                 (storedProgress ? JSON.parse(storedProgress) : []);
     function renderHistory(flowData) {
       const ul = document.getElementById('history');
       if (!ul) return;
