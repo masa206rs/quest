@@ -8,12 +8,28 @@
 <body>
   <h1 id="title">Loading...</h1>
   <div id="choices"></div>
+  <h2>これまでの選択</h2>
+  <ul id="history"></ul>
 
   <script>
     const params = new URLSearchParams(location.search);
     const sid = params.get('sid') || 'start';
     const token = params.get('p') || '';
     const history = token ? JSON.parse(atob(token)) : [];
+    function renderHistory(flowData) {
+      const ul = document.getElementById('history');
+      if (!ul) return;
+      ul.innerHTML = '';
+      history.forEach(item => {
+        const node = flowData[item.sid];
+        if (node) {
+          const label = node.choices[item.choice] || item.choice;
+          const li = document.createElement('li');
+          li.textContent = `${node.text} → ${label}`;
+          ul.appendChild(li);
+        }
+      });
+    }
 
     fetch('flow.json')
       .then(res => res.json())
@@ -21,6 +37,7 @@
         const node = flow[sid];
         document.getElementById('title').textContent = node.text;
         const container = document.getElementById('choices');
+        renderHistory(flow);
 
         Object.entries(node.choices).forEach(([key, label]) => {
           const btn = document.createElement('button');
