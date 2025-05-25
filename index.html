@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Campus Mystery Hunt</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>キャンパス謎解きスタート</h1>
+  <p>最初のチェックポイントへ向かい、QRコードを読み取ってください。</p>
+  <a class="btn" href="checkpoint.html?sid=start">スタート</a>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+</body>
+</html>

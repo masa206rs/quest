@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>Checkpoint</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1 id="title">Loading...</h1>
+  <div id="choices"></div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const sid = params.get('sid') || 'start';
+    const token = params.get('p') || '';
+    const history = token ? JSON.parse(atob(token)) : [];
+
+    fetch('flow.json')
+      .then(res => res.json())
+      .then(flow => {
+        const node = flow[sid];
+        document.getElementById('title').textContent = node.text;
+        const container = document.getElementById('choices');
+
+        Object.entries(node.choices).forEach(([key, label]) => {
+          const btn = document.createElement('button');
+          btn.className = 'choice';
+          btn.dataset.choice = key;
+          btn.textContent = label;
+          container.appendChild(btn);
+        });
+
+        document.querySelectorAll('button.choice').forEach(btn => {
+          btn.onclick = () => {
+            const choice = btn.dataset.choice;
+            const newHist = [...history, { sid, choice }];
+            localStorage.setItem('huntProgress', JSON.stringify(newHist));
+            const nextSid = node.routes[choice];
+            const nextToken = btoa(JSON.stringify(newHist));
+            location.href = `checkpoint.html?sid=${nextSid}&p=${nextToken}`;
+          };
+        });
+      })
+      .catch(err => {
+        document.getElementById('title').textContent = 'flow.json が読み込めませんでした';
+        console.error(err);
+      });
+  </script>
+</body>
+</html>

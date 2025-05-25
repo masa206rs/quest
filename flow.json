@@ -1,0 +1,40 @@
+{
+  "start": {
+    "text": "図書館前に到着！次にどうする？",
+    "choices": {
+      "stairs": "階段で上へ",
+      "elevator": "エレベーターで上へ"
+    },
+    "routes": {
+      "stairs": "roof",
+      "elevator": "lab"
+    }
+  },
+  "roof": {
+    "text": "屋上からの景色は最高！次は？",
+    "choices": {
+      "observatory": "天文台へ",
+      "return": "戻る"
+    },
+    "routes": {
+      "observatory": "goal",
+      "return": "lab"
+    }
+  },
+  "lab": {
+    "text": "コンピュータラボに到着。次は？",
+    "choices": {
+      "code": "謎のコードを解読",
+      "snack": "自販機で休憩"
+    },
+    "routes": {
+      "code": "goal",
+      "snack": "roof"
+    }
+  },
+  "goal": {
+    "text": "ゴール！クリアおめでとう！",
+    "choices": {},
+    "routes": {}
+  }
+}
