@@ -1,6 +1,6 @@
 {
   "start": {
-    "text": "図書館前に到着！1+2は？",
+    "text": "ここからスタート！1+2は？",
     "choices": {
       "stairs": "３",
       "elevator": "１"
