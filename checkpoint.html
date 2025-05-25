@@ -51,10 +51,22 @@
           btn.onclick = () => {
             const choice = btn.dataset.choice;
             const newHist = [...history, { sid, choice }];
-            localStorage.setItem('huntProgress', JSON.stringify(newHist));
+            localStorage.setItem('huntProgress', JSON.stringify(newHist)); // 進捗保存
+            renderHistory(flow);                                           // 履歴更新
+
             const nextSid = node.routes[choice];
-            const nextToken = btoa(JSON.stringify(newHist));
-            location.href = `checkpoint.html?sid=${nextSid}&p=${nextToken}`;
+
+            // 画面遷移せず、次の QR を案内
+            const container = document.getElementById('choices');
+            container.innerHTML = ''; // ボタンを消去
+
+            const msg = document.createElement('p');
+            msg.textContent = `次はチェックポイント「${nextSid}」に貼られた QR コードを読み取ってください。`;
+            msg.style.fontWeight = 'bold';
+            container.appendChild(msg);
+
+            // ボタンの多重クリック防止
+            document.querySelectorAll('button.choice').forEach(b => b.disabled = true);
           };
         });
       })
